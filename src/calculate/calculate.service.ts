@@ -4,6 +4,7 @@ import { CalculateTax } from './dto/calculate.dto.js';
 @Injectable()
 export class CalculateService {
     CalculateSalesTax(dto: CalculateTax){
+        let tax = dto.amount * (dto.rate / 100)
         return{
             "success": true,
             "message": "Tax calculated",
@@ -11,9 +12,9 @@ export class CalculateService {
                 "amount": dto.amount,
                 "rate": dto.rate,
                 "inclusive": dto.inclusive,
-                "tax": 16500,
-                "net": 150000,
-                "gross": 166500
+                "tax": tax,
+                "net": dto.inclusive ? dto.amount - tax : dto.amount,
+                "gross": dto.inclusive ? dto.amount : dto.amount + tax
             }
         }
     }
